@@ -1,29 +1,21 @@
-import ProfileCard from "./ProfileCard";
-import AnimalShow from "./AnimalShow";
-import { useState } from "react";
+import SearchBar from './components/SearchBar';
+import ImageList from './components/ImageList';
 
-function getAnimal() {
-    const animals = ['bird', 'cow', 'dog', 'cat'];
-
-    return animals[Math.floor(Math.random() * animals.length)];
-}
+import searchImages from './api';
+import { useState } from 'react';
 
 function App() {
-const [animals, setAnimal] = useState([]);
+const [images, setImages] = useState([]);
 
-    const handleClick = () => {
-        setAnimal([...animals,getAnimal()]);
-   };
-
-   const renderAnimals = animals.map((animal,index) => {
-    return <AnimalShow type = {animal} key = {index} />
-
-   })
-
+    const handleSubmit = async (term) => {
+        const results = await searchImages(term);
+        setImages(results);
+       }
     return (
         <div>
-            <button onClick={handleClick}>Add Animal</button>
-            <div> {renderAnimals} </div>
+            App
+            <SearchBar onSubmit = {handleSubmit} />
+            <ImageList images= {images} />
         </div>
     );
 }
